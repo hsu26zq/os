@@ -1,3 +1,6 @@
+#ifndef _MB_H
+#define _MB_H
+
 extern volatile unsigned int mbox[36];
 
 enum {
@@ -32,3 +35,5 @@ enum {
 };
 
 unsigned int mbox_call(unsigned char ch);
+
+#endif /*_MB_H */
