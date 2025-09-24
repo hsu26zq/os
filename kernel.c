@@ -2,6 +2,8 @@
 #include "fb.h"
 #include "timer.h"
 #include "irq.h"
+#include "fork.h"
+#include "sched.h"
 
 void main()
 {
