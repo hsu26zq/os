@@ -7,10 +7,10 @@ void main()
 {
     uart_init();
     fb_init();
-    //irq_vector_init();
-    //timer_init();
-    //enable_interrupt_controller();
-    //enable_irq();
+    irq_vector_init();
+    timer_init();
+    enable_interrupt_controller();
+    enable_irq();
 
     /*
     uart_writeText("Hello world!\n");

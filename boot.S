@@ -1,5 +1,7 @@
 #include "sysregs.h"
 
+#define MAIN_STACK      0x400000
+
 .section ".text.boot"  // Make sure the linker puts this at the start of the kernel image
 
 .global _start  // Execution starts here
@@ -34,8 +36,8 @@ _start:
 el1_entry:
 
     // Set stack to start below our code
-    ldr     x1, =_start
-    mov     sp, x1
+    //ldr     x1, =_start
+    mov     sp, #MAIN_STACK
 
     // Clean the BSS section
     ldr     x1, =__bss_start     // Start address
@@ -49,3 +51,6 @@ el1_entry:
 4:  bl      main
     // In case it does return, halt the master core too
     b       1b
+
+
+    
