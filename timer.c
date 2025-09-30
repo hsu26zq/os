@@ -2,6 +2,7 @@
 #include "utils.h"
 //#include "printf.h"
 #include "timer.h"
+#include "sched.h"
 
 #define TIMER_CS_M0	(1 << 0)
 #define TIMER_CS_M1	(1 << 1)
@@ -34,5 +35,5 @@ void handle_timer_irq( void )
 	curVal += interval;
 	put32(TIMER_C1, curVal);
 	put32(TIMER_CS, TIMER_CS_M1);
-	//printf("Timer interrupt received\n\r");
+	timer_tick();
 }

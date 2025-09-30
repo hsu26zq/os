@@ -8,6 +8,7 @@
 #define SYSTEM_TIMER_IRQ_1	(1 << 1)
 #define SYSTEM_TIMER_IRQ_2	(1 << 2)
 #define SYSTEM_TIMER_IRQ_3	(1 << 3)
+#define AUX_IRQ				(1 << 29) // Mini UART
 
 enum
 {
@@ -15,7 +16,7 @@ enum
     IRQ_PENDING_1     = PERIPHERAL_BASE + 0x0000B204,
     IRQ_PENDING_2     = PERIPHERAL_BASE + 0x0000B208,
     FIQ_CONTROL       = PERIPHERAL_BASE + 0x0000B20C,
-    ENABLE_IRQS_1     = PERIPHERAL_BASE + 0x0000B210,
+    ENABLE_IRQS_1     = PERIPHERAL_BASE + 0x0000B210, //wrong
     ENABLE_IRQS_2     = PERIPHERAL_BASE + 0x0000B214,
     ENABLE_BASIC_IRQS = PERIPHERAL_BASE + 0x0000B218,
     DISABLE_IRQS_1    = PERIPHERAL_BASE + 0x0000B21C,
@@ -57,12 +58,16 @@ void show_invalid_entry_message(int type, unsigned long esr, unsigned long addre
 
 void handle_irq(void)
 {
+	//uart_writeText("TIMER INTERUPT!");
 	unsigned int irq = get32(IRQ_PENDING_1);
+	handle_timer_irq();
+	/*
 	switch (irq) {
 		case (SYSTEM_TIMER_IRQ_1):
 			handle_timer_irq();
 			break;
-		//default:
-			//printf("Unknown pending irq: %x\r\n", irq);
+		default:
+			uart_writeText("Unknown pending irq");
 	}
+			*/
 }

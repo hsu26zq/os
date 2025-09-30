@@ -1,6 +1,7 @@
 #include "sched.h"
 #include "irq.h"
 //#include "printf.h"
+#include "io.h"
 
 static struct task_struct init_task = INIT_TASK;
 struct task_struct *current = &(init_task);
@@ -20,6 +21,7 @@ void preempt_enable(void)
 
 void _schedule(void)
 {
+	uart_writeText("Hello world4!\n");
 	preempt_disable();
 	int next,c;
 	struct task_struct * p;
@@ -33,7 +35,7 @@ void _schedule(void)
 				next = i;
 			}
 		}
-		if (c) {
+		if (c>0) {
 			break;
 		}
 		for (int i = 0; i < NR_TASKS; i++) {
@@ -57,6 +59,7 @@ void switch_to(struct task_struct * next)
 {
 	if (current == next) 
 		return;
+	uart_writeText("Hello world3!\n");
 	struct task_struct * prev = current;
 	current = next;
 	cpu_switch_to(prev, next);
@@ -70,9 +73,11 @@ void schedule_tail(void) {
 void timer_tick()
 {
 	--current->counter;
+	//uart_writeText("Hello world34!");
 	if (current->counter>0 || current->preempt_count >0) {
 		return;
 	}
+	//uart_writeText("Hello world35!");
 	current->counter=0;
 	enable_irq();
 	_schedule();

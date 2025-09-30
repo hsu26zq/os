@@ -97,6 +97,7 @@ enum {
 unsigned char uart_output_queue[UART_MAX_QUEUE];
 unsigned int uart_output_queue_write = 0;
 unsigned int uart_output_queue_read = 0;
+unsigned char uart_input_line[100];
 
 void uart_init() {
     mmio_write(AUX_ENABLES, 1); //enable UART1
@@ -147,8 +148,8 @@ void uart_writeByteBlocking(unsigned char ch) {
 
 void uart_writeText(char *buffer) {
     while (*buffer) {
-       if (*buffer == '\n') uart_writeByteBlocking('\r');
-       uart_writeByteBlocking(*buffer++);
+       if (*buffer == '\n') uart_writeByteBlockingActual('\r');
+       uart_writeByteBlockingActual(*buffer++);
     }
 }
 
@@ -162,5 +163,29 @@ void uart_update() {
     if (uart_isReadByteReady()) {
        unsigned char ch = uart_readByte();
        if (ch == '\r') uart_writeText("\n"); else uart_writeByteBlocking(ch);
+    }
+}
+
+/*
+unsigned char getUart()
+{
+    unsigned char ch = 0;
+
+    if (uart_isReadByteReady()) ch = uart_readByte();
+    return ch;
+}
+*/
+
+void uart_readText(void)
+{
+    uart_writeByteBlockingActual(65);
+    while (mmio_read(AUX_MU_LSR_REG))
+    {
+        unsigned char ch0 = mmio_read(AUX_MU_LSR_REG);
+        unsigned char ch1 = mmio_read(AUX_MU_IO_REG);
+        uart_writeByteBlockingActual(ch0);
+        uart_writeByteBlockingActual(ch1);
+        uart_writeByteBlockingActual(66);
+        while(1);
     }
 }
