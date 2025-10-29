@@ -1,4 +1,4 @@
 A TINY WORK-IN-PROGRESS SINGLE-CORE OPERATING SYSTEM FOR RASPBERRY PI 4 MODEL B, CURRENTLY ONLY FEATURING UART OUTPUT AND PROCESS SCHEDULING
 
 DEMO: SWITCHING BETWEEN PROCESS 1, 2 AND 3 (kernel.c)
-<img width="1142" height="707" alt="Image" src="https://github.com/user-attachments/assets/d2aad003-f759-4ae6-9df1-8f1e247dffee" />
+<video src="https://github.com/user-attachments/assets/4657a09a-a16c-4d23-8467-2c08a40c0ded"></video>
